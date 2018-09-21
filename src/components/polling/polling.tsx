@@ -35,7 +35,7 @@ export class Polling extends React.Component<PollingProps, PollingState> {
     const cpydDynamicFields = dynamicFields;
     const target = event.target;
     const name = target.name;
-  
+  console.log("name", name);
     if (name == "title") {
       this.setState({
         title: event.target.value
@@ -123,7 +123,7 @@ console.log(data);
                   {number + 1}
                   <input
                     type="text"
-                    name={`field${number}`}
+                    name={`field${number + 1}`}
                     value={this.state.dynamicFields[`field${number}`]}
                     onChange={this.handleChange}
                   />
