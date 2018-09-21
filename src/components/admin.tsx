@@ -48,6 +48,9 @@ export class Admin extends React.Component<Props, State> {
   }
 
   private onValue = (data: any): any => {
+    alert(7);
+    this.socket.emit('createPoll', data);
+
     console.log("data option", data);
   };
   private onSubmit = (data: any): any => {
