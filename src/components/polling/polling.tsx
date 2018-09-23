@@ -1,9 +1,7 @@
 import * as React from "react";
 import "./polling-style.css";
-import { Button } from "../../common/components/form";
 export interface PollingProps {
-  question: any;
-  onValueSelected: (data: any) => any;
+  
 }
 export interface PollingState {
   title: string;
@@ -75,7 +73,7 @@ export class Polling extends React.Component<PollingProps, PollingState> {
       option: optionValue,
       limit: time_limit
     };
-    this.props.onValueSelected(data);
+  //  this.props.onValueSelected(data);
     
     console.log("data", data);
 
@@ -111,55 +109,58 @@ export class Polling extends React.Component<PollingProps, PollingState> {
   render() {
     return (
       <div>
-        <div>
-          <button onClick={this.addField}>Add field</button>
-        </div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Title:
-            <input
-              type="text"
-              name="title"
-              value={this.state.title}
-              onChange={this.handleChange}
-            />
-          </label>
-          {this.state.fieldArray.map((field, number) => {
-            console.log("`field${number + 1}`", `field${number + 1}`);
-            return (
-              <div key={number}>
-                <label>
-                  Option:
-                  {number + 1}
-                  <input
-                    type="text"
-                    name={`field${number + 1}`}
-                    value={this.state.dynamicFields[`field${number + 1}`]}
-                    onChange={this.handleChange}
-                  />
-                </label>
-                <input
-                  type="button"
-                  onClick={() => this.removeField(`field${number + 1}`)}
-                  value="Remove"
-                />
-                <br />
-              </div>
-            );
-          })}
-          <label>
-            Time limit(Minutes):
-            <input
-              type="number"
-              name="limit"
-              value={this.state.time_limit}
-              onChange={this.handleChange}
-            />
-          </label>
-          <br />
-          <input type="submit" value="Submit" />
-        </form>
+      Avinash
       </div>
+      // <div>
+      //   <div>
+      //     <button onClick={this.addField}>Add field</button>
+      //   </div>
+      //   <form onSubmit={this.handleSubmit}>
+      //     <label>
+      //       Title:
+      //       <input
+      //         type="text"
+      //         name="title"
+      //         value={this.state.title}
+      //         onChange={this.handleChange}
+      //       />
+      //     </label>
+      //     {this.state.fieldArray.map((field, number) => {
+      //       console.log("`field${number + 1}`", `field${number + 1}`);
+      //       return (
+      //         <div key={number}>
+      //           <label>
+      //             Option:
+      //             {number + 1}
+      //             <input
+      //               type="text"
+      //               name={`field${number + 1}`}
+      //               value={this.state.dynamicFields[`field${number + 1}`]}
+      //               onChange={this.handleChange}
+      //             />
+      //           </label>
+      //           <input
+      //             type="button"
+      //             onClick={() => this.removeField(`field${number + 1}`)}
+      //             value="Remove"
+      //           />
+      //           <br />
+      //         </div>
+      //       );
+      //     })}
+      //     <label>
+      //       Time limit(Minutes):
+      //       <input
+      //         type="number"
+      //         name="limit"
+      //         value={this.state.time_limit}
+      //         onChange={this.handleChange}
+      //       />
+      //     </label>
+      //     <br />
+      //     <input type="submit" value="Submit" />
+      //   </form>
+      // </div>
     );
   }
 }
