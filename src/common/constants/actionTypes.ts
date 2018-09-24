@@ -1,6 +1,7 @@
 export const actionTypes = {
-    FETCH_MEMBERS_COMPLETED: 'FETCH_MEMBERS_COMPLETED',
-    FETCH_MEMBER_BY_ID_COMPLETED: 'FETCH_MEMBER_BY_ID_COMPLETED',
-    UPDATE_MEMBER_FIELD: 'UPDATE_MEMBER_FIELD',
-    SAVE_MEMBER: 'SAVE_MEMBER',
+    ADMIN_LOGIN: 'admin/login',
+    POLL_LIST: "poll/list",
+    POLL_CREATE: "poll/create",
+    POLL_UPDATE: "pole/update",
+    POLL_DELETE: "pole/delete"
 };

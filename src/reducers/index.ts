@@ -1,13 +1,13 @@
-import { combineReducers } from 'redux';
-import { memberReducer } from './member';
-import { MemberEntity } from '../model';
+import { combineReducers } from "redux";
+import { authReducer as auth } from "./auth";
+import { pollReducer as poll } from "./poll";
 
 export interface State {
-    member: MemberEntity;
-
-};
+  auth: any;
+  poll: any;
+}
 
 export const state = combineReducers<State>({
-    member: memberReducer,
-
+  auth,
+  poll
 });

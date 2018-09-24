@@ -1,1 +1,1 @@
-export * from './memberEntity';
+export * from './login';

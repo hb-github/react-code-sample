@@ -79,15 +79,13 @@ h2 {
   color: green;
 }
 .removeBtn {
-
   margin: 25px 0px 0px 80px;
 }
 .list_items {
   width: 1000px;
   float: left;
 }
-.options {
-  
+.options {  
   float: left;
 }
 

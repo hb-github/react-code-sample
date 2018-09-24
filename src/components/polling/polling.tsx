@@ -3,6 +3,7 @@ import "./polling-style.css";
 import { Navbar } from "../login/components/navbar/navbar";
 import Collapsible from "react-collapsible";
 import Modal from "react-modal";
+import { pollList, pollCreate } from "../../api/poll";
 const customStyles = {
   content: {
     top: "50%",
@@ -18,7 +19,10 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-export interface PollingProps {}
+export interface PollingProps {
+  listPollAction: (data: any) => any;
+  poll: any;
+}
 export interface PollingState {
   title: string;
   dynamicFields: any;
@@ -29,8 +33,11 @@ export interface PollingState {
   modalIsOpen: boolean;
 }
 export class Polling extends React.Component<PollingProps, PollingState> {
-  constructor(props) {
+  constructor(props: PollingProps) {
     super(props);
+
+    this.listCall();
+
     this.state = {
       title: "",
       dynamicFields: {
@@ -45,11 +52,10 @@ export class Polling extends React.Component<PollingProps, PollingState> {
       fieldCount: 2,
       fieldArray: ["field1", "field2"],
       time_limit: 0,
-      modalIsOpen: true
+      modalIsOpen: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -63,6 +69,32 @@ export class Polling extends React.Component<PollingProps, PollingState> {
     // references are now sync'd and can be accessed.
     //this.subtitle.style.color = '#f00';
   }
+
+  // List Api
+
+  listCall = () => {
+    const { listPollAction } = this.props;
+    pollList({ page: 1 })
+      .then(success => {
+        // console.log(success['pollingList'].docs);
+        listPollAction(success["pollingList"].docs);        
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  // Add Api
+
+  createCall = data => {
+    pollCreate(data)
+      .then(success => {
+        console.log(success);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   closeModal() {
     this.setState({ modalIsOpen: false });
@@ -115,6 +147,8 @@ export class Polling extends React.Component<PollingProps, PollingState> {
     };
     //  this.props.onValueSelected(data);
 
+    this.createCall(data);
+
     console.log("data", data);
 
     event.preventDefault();
@@ -147,6 +181,9 @@ export class Polling extends React.Component<PollingProps, PollingState> {
   };
 
   render() {
+
+    const { poll } = this.props; 
+    
     return (
       <div>
         <Navbar />
@@ -171,59 +208,62 @@ export class Polling extends React.Component<PollingProps, PollingState> {
               </div>
               <form onSubmit={this.handleSubmit}>
                 <div className="middle">
-                  <label>
-                    Title:
-                  </label>
-                    <input
-                      type="text"
-                      name="title"
-                      value={this.state.title}
-                      onChange={this.handleChange}
-                      className="form-control"
-                    />        
+                  <label>Title:</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={this.state.title}
+                    onChange={this.handleChange}
+                    className="form-control"
+                  />
                   {this.state.fieldArray.map((field, number) => {
                     console.log("`field${number + 1}`", `field${number + 1}`);
                     return (
-                      <div key={number}>                        
+                      <div key={number}>
                         <div className="options">
-                        <label>
-                          Option
-                          {number + 1}:                      
-                          <input
-                            type="text"
-                            width="300px"
-                            name={`field${number + 1}`}
-                            value={
-                              this.state.dynamicFields[`field${number + 1}`]
-                            }
-                            onChange={this.handleChange}
-                            className="form-control"                            
-                            
-                          /></label></div>                              
-                          <div>
-                        {this.state.fieldArray.length > 2 ? (
-                          <input
-                            type="button"
-                            onClick={() =>
-                              this.removeField(`field${number + 1}`)
-                            }
-                            value="Remove"
-                            className="btn btn-danger removeBtn"
-                          />
-                           ) : ( <button className="btn btn-danger removeBtn disabled">Remove</button> )
-                       }    </div>     <br />                              
-                                                  
+                          <label>
+                            Option
+                            {number + 1}:
+                            <input
+                              type="text"
+                              width="300px"
+                              name={`field${number + 1}`}
+                              value={
+                                this.state.dynamicFields[`field${number + 1}`]
+                              }
+                              onChange={this.handleChange}
+                              className="form-control"
+                            />
+                          </label>
+                        </div>
+                        <div>
+                          {this.state.fieldArray.length > 2 ? (
+                            <input
+                              type="button"
+                              onClick={() =>
+                                this.removeField(`field${number + 1}`)
+                              }
+                              value="Remove"
+                              className="btn btn-danger removeBtn"
+                            />
+                          ) : (
+                            <button className="btn btn-danger removeBtn disabled">
+                              Remove
+                            </button>
+                          )}{" "}
+                        </div>{" "}
+                        <br />
                       </div>
                     );
                   })}
                   <label> Time limit: </label>
-                    <input
-                      type="number"
-                      name="limit"
-                      value={this.state.time_limit}
-                      onChange={this.handleChange}
-                      className="form-control"                      
-                    />                  
+                  <input
+                    type="number"
+                    name="limit"
+                    value={this.state.time_limit}
+                    onChange={this.handleChange}
+                    className="form-control"
+                  />
                   <br />
                 </div>
                 <div className="footer">
@@ -260,10 +300,35 @@ export class Polling extends React.Component<PollingProps, PollingState> {
               </div>
             </div>
 
+            {/* return _.map(this.props.posts.undefined,  post => { */}
+
             <ul className="list-group">
-              <li className="list-group-item col-sm-12"><div className="list_items">First item</div><button className="btn btn-warning editBtn">Edit</button></li>
-              <li className="list-group-item col-sm-12"><div className="list_items">Second item</div><button className="btn btn-warning editBtn">Edit</button></li>
-              <li className="list-group-item col-sm-12"><div className="list_items">Third item</div><button className="btn btn-warning editBtn">Edit</button></li>
+              {/* { listPollAction.map(p => <li>{p.name}</li>)} */}
+       
+{/* // { poll.map((px) => {
+// console.log("poll", poll)
+// })} */}
+
+
+              <li className="list-group-item col-sm-12">
+                <div className="list_items">First item</div>
+                <button className="btn btn-warning editBtn">
+                  Active/Inactive
+                </button>
+              </li>
+              <li className="list-group-item col-sm-12">
+                <div className="list_items">Second item</div>
+                <button className="btn btn-warning editBtn">
+                  Active/Inactive
+                </button>
+              </li>
+              <li className="list-group-item col-sm-12">
+                <div className="list_items">Third item</div>
+                <button className="btn btn-warning editBtn">
+                  Active/Inactive
+                </button>
+              </li>
+
             </ul>
           </div>
         </div>

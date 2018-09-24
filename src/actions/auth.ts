@@ -1,15 +1,11 @@
-// import { actionTypes } from '../../../common/constants/actionTypes';
-// import { MemberEntity } from '../../../model';
-// import { memberAPI } from '../../../api/member';
-import { adminLogin } from '../api';
-// export const fetchMemberByIdAction = (id: number) => (dispatch) => {
-//   memberAPI.fetchMemberById(id)
-//     .then((member) => {
-//       dispatch(fetchMemberByIdCompleted(member));
-//     });
-// };
+import { actionTypes } from "../common/constants/actionTypes";
+import { LoginEntity } from "../model";
 
-// const fetchMemberByIdCompleted = (member: MemberEntity) => ({
-//   type: actionTypes.FETCH_MEMBER_BY_ID_COMPLETED,
-//   payload: member,
-// });
+export const adminAction = (data: any) => dispatch => {
+  dispatch(mapAdminAction(data));
+};
+
+const mapAdminAction = (login: LoginEntity) => ({
+  type: actionTypes.ADMIN_LOGIN,
+  payload: login
+});

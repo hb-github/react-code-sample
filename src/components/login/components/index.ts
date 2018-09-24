@@ -1,6 +1,3 @@
-
-import Container from './container/container';
-export * from './navbar/navbar';
-export {
-    Container
-}
+import { Container } from "./container";
+export * from "./navbar/navbar";
+export { Container };
