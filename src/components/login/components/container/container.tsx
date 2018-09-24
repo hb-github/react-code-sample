@@ -2,9 +2,11 @@ import * as React from 'react';
 import './container-style.css';
 import * as toastr from 'toastr';
 import { adminLogin } from '../../../../api';
+import randomstring from "randomstring";
+
 import {
     withRouter
-  } from 'react-router-dom'
+} from 'react-router-dom'
 export interface ContainerProps {
     history: any
 }
@@ -25,6 +27,12 @@ class Container extends React.Component<ContainerProps, ContainerState> {
         //     toastr.success('Member saved.');
 
     }
+
+    componentDidMount(){
+        if(window.localStorage.getItem('token'))
+        this.props.history.push("/polling");
+    }
+    
     handleUsernameChange(event: any) {
         this.setState({ username: event.target.value });
     }
@@ -32,12 +40,14 @@ class Container extends React.Component<ContainerProps, ContainerState> {
         this.setState({ password: event.target.value });
     }
     handleSubmit(event) {
+        const token = randomstring.generate();
         console.log("this.state", this.state)
         event.preventDefault();
         adminLogin(this.state).then((login: any) => {
             if (login['code'] == 200) {
                 toastr.success(login['msg']);
                 this.props.history.push("/polling");
+                window.localStorage.setItem('token', token);
             } else {
                 toastr.error(login['msg']);
             }
