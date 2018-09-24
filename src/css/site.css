@@ -1,3 +1,4 @@
+
 .top-buffer{
   margin-top: 20px;
 }
@@ -48,3 +49,45 @@
   margin-left: -50px;
   margin-top: -50px;
 }
+.main_div {
+  padding: 10px;
+}
+h2 {
+  float: left;
+  margin-right: 240px;  
+}
+.header{
+  width: 500px;
+  float: left;
+}
+.submitBtn{
+  margin-left: 325px;
+}
+.footer{
+  margin-top: 10px;
+}
+.list_heading{
+  margin: 10px 0px 10px 0px;
+}
+.top-margin {
+  margin-top: 30px;
+} 
+.txt1 {
+  float: left;
+  margin-right: 750px; 
+  font-size: 30px;
+  color: green;
+}
+.removeBtn {
+
+  margin: 25px 0px 0px 80px;
+}
+.list_items {
+  width: 1000px;
+  float: left;
+}
+.options {
+  
+  float: left;
+}
+

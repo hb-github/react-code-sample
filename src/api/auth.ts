@@ -1,9 +1,9 @@
 //import { MemberEntity } from '../../model';
 
-const baseURL = 'http://localhost:3002/api/v1/';
+const baseURL = 'http://localhost:3001/api/v1/';
 
 export const adminLogin = (data: any): Promise<{}> => {
-    const authURL = `http://localhost:3002/api/v1/admin/login`;
+    const authURL = `http://localhost:3001/api/v1/admin/login`;
     return fetch(authURL,
         {
             method: 'POST',

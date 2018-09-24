@@ -2,7 +2,7 @@ import * as React from 'react';
 import './container-style.css';
 import * as toastr from 'toastr';
 import { adminLogin } from '../../../../api';
-import randomstring from "randomstring";
+import randomstring from 'randomstring';
 
 import {
     withRouter
