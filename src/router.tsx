@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { Login } from './components/login/login';
-import { Polling } from './components/polling/polling'
+import { PollingContainer } from './components/polling'
 import { store } from './store';
 
 export const AppRouter: React.StatelessComponent<{}> = () => {
@@ -12,7 +12,7 @@ export const AppRouter: React.StatelessComponent<{}> = () => {
         <div>
           <Switch>
             <Route exact path="/" component={Login} />
-            <Route exact path="/polling" component={Polling} />
+            <Route exact path="/polling" component={PollingContainer} />
           </Switch>
         </div>
       </BrowserRouter>

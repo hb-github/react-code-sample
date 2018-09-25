@@ -2,17 +2,17 @@ import * as React from "react";
 import { Polling } from "./polling";
 import { connect } from "react-redux";
 import { State } from "../../reducers";
-import { listPollAction } from "../../actions";
+import { listPoll } from "../../actions";
 
 const mapDispatchToProps = dispatch => ({
-  listPollAction: (data: any) => dispatch(listPollAction(data))
+  listAction: (data: any) => dispatch(listPoll(data))
 });
 
 const mapStateToProps = (state: State, ownProps: any) => ({
-  poll: state["poll"] 
+  poll: state['poll']
 });
 
-export const Container = connect(
+export const PollingContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Polling);

@@ -1,4 +1,4 @@
-const baseURL = "http://192.168.39.34:3002/api/v1/";
+const baseURL = "http://localhost:3002/api/v1/";
 
 export const pollList = (data: any): Promise<{}> => {
   const authURL = `${baseURL}polling/list`;

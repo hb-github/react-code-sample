@@ -3,7 +3,9 @@ import "./polling-style.css";
 import { Navbar } from "../login/components/navbar/navbar";
 import Collapsible from "react-collapsible";
 import Modal from "react-modal";
+import { ListPoll } from './components';
 import { pollList, pollCreate } from "../../api/poll";
+import {} from './components';
 const customStyles = {
   content: {
     top: "50%",
@@ -35,9 +37,6 @@ export interface PollingState {
 export class Polling extends React.Component<PollingProps, PollingState> {
   constructor(props: PollingProps) {
     super(props);
-
-    this.listCall();
-
     this.state = {
       title: "",
       dynamicFields: {
@@ -52,7 +51,8 @@ export class Polling extends React.Component<PollingProps, PollingState> {
       fieldCount: 2,
       fieldArray: ["field1", "field2"],
       time_limit: 0,
-      modalIsOpen: false
+      modalIsOpen: false,
+    
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -61,10 +61,16 @@ export class Polling extends React.Component<PollingProps, PollingState> {
     this.closeModal = this.closeModal.bind(this);
   }
 
+  getPolls = () => {
+    console.log("this........", this.props.poll)
+  }
   openModal() {
     this.setState({ modalIsOpen: true });
   }
 
+  componentDidMount(){
+    this.polls();
+  }
   afterOpenModal() {
     // references are now sync'd and can be accessed.
     //this.subtitle.style.color = '#f00';
@@ -72,12 +78,12 @@ export class Polling extends React.Component<PollingProps, PollingState> {
 
   // List Api
 
-  listCall = () => {
-    const { listPollAction } = this.props;
+  private polls = () => {
     pollList({ page: 1 })
       .then(success => {
+        console.log("success", success);
         // console.log(success['pollingList'].docs);
-        listPollAction(success["pollingList"].docs);        
+        this.props.listPollAction(success["pollingList"].docs);
       })
       .catch(error => {
         console.log(error);
@@ -182,12 +188,14 @@ export class Polling extends React.Component<PollingProps, PollingState> {
 
   render() {
 
-    const { poll } = this.props; 
-    
+    const { poll } = this.props;
+{console.log("poll", poll)}
     return (
       <div>
         <Navbar />
         <div className="container">
+
+
           <Modal
             isOpen={this.state.modalIsOpen}
             onAfterOpen={this.afterOpenModal}
@@ -247,10 +255,10 @@ export class Polling extends React.Component<PollingProps, PollingState> {
                               className="btn btn-danger removeBtn"
                             />
                           ) : (
-                            <button className="btn btn-danger removeBtn disabled">
-                              Remove
+                              <button className="btn btn-danger removeBtn disabled">
+                                Remove
                             </button>
-                          )}{" "}
+                            )}{" "}
                         </div>{" "}
                         <br />
                       </div>
@@ -282,56 +290,8 @@ export class Polling extends React.Component<PollingProps, PollingState> {
               </form>
             </div>
           </Modal>
-          <div className="top-margin">
-            <div className="row">
-              <div className="col-sm-12 list_heading">
-                <div className="txt1">Polling List</div>
-                <div className="col-sm-12">
-                  <span className="txt2">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={this.openModal}
-                    >
-                      Create Poll
-                    </button>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* return _.map(this.props.posts.undefined,  post => { */}
-
-            <ul className="list-group">
-              {/* { listPollAction.map(p => <li>{p.name}</li>)} */}
-       
-{/* // { poll.map((px) => {
-// console.log("poll", poll)
-// })} */}
-
-
-              <li className="list-group-item col-sm-12">
-                <div className="list_items">First item</div>
-                <button className="btn btn-warning editBtn">
-                  Active/Inactive
-                </button>
-              </li>
-              <li className="list-group-item col-sm-12">
-                <div className="list_items">Second item</div>
-                <button className="btn btn-warning editBtn">
-                  Active/Inactive
-                </button>
-              </li>
-              <li className="list-group-item col-sm-12">
-                <div className="list_items">Third item</div>
-                <button className="btn btn-warning editBtn">
-                  Active/Inactive
-                </button>
-              </li>
-
-            </ul>
+          <ListPoll/>
           </div>
-        </div>
       </div>
     );
   }

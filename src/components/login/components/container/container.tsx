@@ -14,6 +14,7 @@ export interface ContainerState {
   username: string;
   password: string;
 }
+
 class Container extends React.Component<ContainerProps, ContainerState> {
   constructor(props: ContainerProps) {
     super(props);
@@ -32,8 +33,8 @@ class Container extends React.Component<ContainerProps, ContainerState> {
     console.log("auth", auth);
   };
   componentDidMount() {
-    if (window.localStorage.getItem("token"))
-     this.props.history.push("/polling");
+   // if (window.localStorage.getItem("token"))
+  //   this.props.history.push("/polling");
   }
 
   handleUsernameChange(event: any) {

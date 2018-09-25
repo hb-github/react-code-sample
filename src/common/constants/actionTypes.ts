@@ -1,7 +1,7 @@
 export const actionTypes = {
-    ADMIN_LOGIN: 'admin/login',
-    POLL_LIST: "poll/list",
-    POLL_CREATE: "poll/create",
-    POLL_UPDATE: "pole/update",
-    POLL_DELETE: "pole/delete"
+    ADMIN_LOGIN: 'admin/LOGIN',
+    POLL_LIST: "poll/LIST",
+    POLL_CREATE: "poll/CREATE",
+    POLL_UPDATE: "pole/UPDATE",
+    POLL_DELETE: "pole/DELETE"
 };
