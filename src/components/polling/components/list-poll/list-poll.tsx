@@ -10,21 +10,38 @@ export interface PollingProps {
 }
 export interface State {
   isUpdate: boolean
+  page: any
+  total: any
+  limit: any
 }
 export class List extends React.Component<PollingProps, State> {
   constructor(props: PollingProps) {
     super(props);
     this.state = {
       isUpdate: false,
+      page: 1,
+      total: 0,      
+      limit: 0
     }
   }
   componentDidMount() {
     this.polls();
   }
 
+  paginetion(value){
+    if(value == 'increase' && ((this.state.total/this.state.limit) > this.state.page )){
+      this.setState({'page': this.state.page + 1})
+    }
+    if(value == 'decrease' && this.state.page > 1) {
+      this.setState({'page': this.state.page - 1})
+    }
+  }
+
   private polls = () => {
-    pollList({ page: 1 })
+    pollList({ page: this.state.page })
       .then(success => {
+        this.setState({limit: success["pollingList"].limit})
+        this.setState({total: success["pollingList"].total})
         this.props.listAction(success["pollingList"].docs);
       })
       .catch(error => {
@@ -41,6 +58,7 @@ export class List extends React.Component<PollingProps, State> {
         console.log(error);
       });
   };
+
   closeModel = () => {
     this.setState({ isUpdate: false })
   }
@@ -65,7 +83,6 @@ export class List extends React.Component<PollingProps, State> {
   render() {
     const { poll } = this.props;
 
-
     if (this.state.isUpdate) {
       return (
         <div>
@@ -86,7 +103,7 @@ export class List extends React.Component<PollingProps, State> {
 
             <ul className="list-group">
               {poll.map((field, number) => {
-                console.log("field", field);
+                // console.log("field", field);
                 return (
                   <li key={field._id} className="list-group-item col-sm-12">
                     {field.status == "Active" ? (<div className="list_items_active">{field.title}</div>) :
@@ -143,11 +160,15 @@ export class List extends React.Component<PollingProps, State> {
               );
             })}
           </ul>
+
+            <div>              
+              <button className="btn btn-secondry" onClick={() => this.paginetion('increase')}>Next</button>
+              <button className="btn btn-secondry" onClick={() => this.paginetion('decrease')}>Pre</button>              
+            </div>
+
         </div>
 
       )
     }
-
-
   }
 }

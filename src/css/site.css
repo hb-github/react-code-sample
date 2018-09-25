@@ -106,3 +106,7 @@ pointer-events: none
   float: right;
   margin: 20px 30px 0px 0px;
 }
+.btn-secondry  {
+  float: right;
+  margin: 10px 0px 0px 10px;
+}
