@@ -81,6 +81,10 @@ h2 {
 .removeBtn {
   margin: 25px 0px 0px 80px;
 }
+.removeBtn1 {
+  margin: 25px 0px 0px 80px;
+pointer-events: none
+}
 .list_items_active {
   width: 835px;
   float: left;

@@ -3,5 +3,6 @@ export const actionTypes = {
     POLL_LIST: "poll/LIST",
     POLL_CREATE: "poll/CREATE",
     POLL_UPDATE: "pole/UPDATE",
-    POLL_DELETE: "pole/DELETE"
+    POLL_DELETE: "pole/DELETE",
+    SELECTED_POLL: "poll/SELECTED"
 };

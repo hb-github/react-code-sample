@@ -1,12 +1,7 @@
 import * as React from "react";
-import "./polling-style.css";
-import { Navbar } from "../login/components/navbar/navbar";
-import Collapsible from "react-collapsible";
+import "./add-poll-style.css";
 import Modal from "react-modal";
-import { ListPoll } from './components/list-poll';
-import AddPollContainer from './components/add-poll';
-import UpdatePollContainer from './components/update-poll';
-import { pollList, pollCreate } from "../../api/poll";
+import { pollList, pollCreate } from "../../../../api/poll";
 const customStyles = {
   content: {
     top: "50%",
@@ -25,8 +20,6 @@ export interface PollingProps {
   poll: any;
 }
 export interface PollingState {
-  isAdded: boolean,
-  isUpdate: boolean,
   title: string;
   dynamicFields: any;
   value: any;
@@ -35,12 +28,10 @@ export interface PollingState {
   time_limit: string;
   modalIsOpen: boolean;
 }
-export class Polling extends React.Component<PollingProps, PollingState> {
+export class AddPoll extends React.Component<PollingProps, PollingState> {
   constructor(props: PollingProps) {
     super(props);
     this.state = {
-      isAdded: false,
-      isUpdate: false,
       title: "",
       dynamicFields: {
         field1: "",
@@ -54,7 +45,7 @@ export class Polling extends React.Component<PollingProps, PollingState> {
       fieldCount: 2,
       fieldArray: ["field1", "field2"],
       time_limit: '',
-      modalIsOpen: false,
+      modalIsOpen: true,
 
     };
     this.handleChange = this.handleChange.bind(this);
@@ -69,7 +60,7 @@ export class Polling extends React.Component<PollingProps, PollingState> {
     console.log("this........", this.props.poll)
   }
   openModal() {
-    this.setState({ isAdded: true });
+    this.setState({ modalIsOpen: true });
   }
 
   componentDidMount() {
@@ -207,27 +198,102 @@ export class Polling extends React.Component<PollingProps, PollingState> {
   };
 
   render() {
-
-    const { poll } = this.props;
-
     return (
-      <div>
-        <Navbar />
-        <div className="container">
-          <button className="btn btn-primary createpollBtn" onClick={this.openModal}>Create Poll</button>
-          {this.state.isAdded ? <div>
-            <AddPollContainer />
-            <ListPoll />
-          </div> :
+      <Modal
+        isOpen={this.state.modalIsOpen}
+        onAfterOpen={this.afterOpenModal}
+        onRequestClose={this.closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <div className="main_div">
+          <div className="header">
             <div>
-              <ListPoll />
+              <h2 ref={subtitle => subtitle}>Create Poll</h2>
             </div>
-          }
-
-       
-
+            <div className="addfield">
+              <button className="btn btn-primary" onClick={this.addField}>
+                Add field
+                  </button>
+            </div>
+          </div>
+          <form onSubmit={this.handleSubmit}>
+            <div className="middle">
+              <label>Title:</label>
+              <input
+                type="text"
+                name="title"
+                value={this.state.title}
+                onChange={this.handleChange}
+                className="form-control"
+              />
+              {this.state.fieldArray.map((field, number) => {
+                return (
+                  <div key={number}>
+                    <div className="options">
+                      <label>
+                        Option
+                            {number + 1}:
+                            <input
+                          placeholder={`Option ${number + 1}`}
+                          type="text"
+                          width="300px"
+                          name={field}
+                          value={
+                            this.state.dynamicFields[field]
+                          }
+                          onChange={this.handleChange}
+                          className="form-control"
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      {this.state.fieldArray.length > 2 ? (
+                        <input
+                          type="button"
+                          onClick={() =>
+                            this.removeField(field)
+                          }
+                          value="Remove"
+                          className="btn btn-danger removeBtn"
+                        />
+                      ) : (
+                          <button className="btn btn-danger removeBtn1 disabled">
+                            Remove
+                            </button>
+                        )}{" "}
+                    </div>{" "}
+                    <br />
+                  </div>
+                );
+              })}
+              <label> Time limit: (example : 20 minute)</label>
+              <input
+                type="text"
+                name="limit"
+                placeholder={'In a minute'}
+                value={this.state.time_limit}
+                onChange={this.handleChange}
+                className="form-control"
+              />
+              <br />
+            </div>
+            <div className="footer">
+              <input
+                className="btn btn-danger"
+                type="button"
+                onClick={this.closeModal}
+                value="Cancle"
+              />
+              <input
+                className="btn btn-success submitBtn"
+                type="submit"
+                value="Submit"
+              />
+            </div>
+          </form>
         </div>
-      </div>
+      </Modal>
     );
   }
 }
