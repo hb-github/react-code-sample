@@ -59,17 +59,18 @@ export class Polling extends React.Component<PollingProps, PollingState> {
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+
   }
 
   getPolls = () => {
     console.log("this........", this.props.poll)
   }
-  openModal() {
+  openModal() {    
     this.setState({ modalIsOpen: true });
   }
 
   componentDidMount(){
-    this.polls();
+    // this.polls();
   }
   afterOpenModal() {
     // references are now sync'd and can be accessed.
@@ -81,21 +82,23 @@ export class Polling extends React.Component<PollingProps, PollingState> {
   private polls = () => {
     pollList({ page: 1 })
       .then(success => {
-        console.log("success", success);
+        // console.log("success", success);
         // console.log(success['pollingList'].docs);
-        this.props.listPollAction(success["pollingList"].docs);
+        // this.props.listPollAction(success["pollingList"].docs);
       })
       .catch(error => {
         console.log(error);
       });
   };
 
-  // Add Api
+  // Create Api
 
   createCall = data => {
     pollCreate(data)
       .then(success => {
-        console.log(success);
+        // console.log(success);
+        this.polls();
+        this.closeModal();        
       })
       .catch(error => {
         console.log(error);
@@ -112,7 +115,7 @@ export class Polling extends React.Component<PollingProps, PollingState> {
     console.log("cpydDynamicFields", cpydDynamicFields);
     const target = event.target;
     const name = target.name;
-    console.log("name", name);
+    // console.log("name", name);
     if (name == "title") {
       this.setState({
         title: event.target.value
@@ -138,17 +141,17 @@ export class Polling extends React.Component<PollingProps, PollingState> {
     console.log("fieldArray", fieldArray);
 
     for (let key in dynamicFields) {
-      // if (fieldArray.indexOf(key) > -1) {
-      //   optionValue.push(dynamicFields[key]);
-      // }
-      if (dynamicFields[key] != "") {
+      if (fieldArray.indexOf(key) > -1) {
         optionValue.push(dynamicFields[key]);
       }
+      // if (dynamicFields[key] != "") {
+      //   optionValue.push(dynamicFields[key]);
+      // }
     }
-
+console.log(optionValue);
     const data = {
       title: title,
-      option: optionValue,
+      options: optionValue,
       limit: time_limit
     };
     //  this.props.onValueSelected(data);
@@ -189,12 +192,12 @@ export class Polling extends React.Component<PollingProps, PollingState> {
   render() {
 
     const { poll } = this.props;
-{console.log("poll", poll)}
+
     return (
       <div>
-        <Navbar />
+          <Navbar />
         <div className="container">
-
+        <button className="btn btn-primary createpollBtn" onClick={this.openModal}>Create Poll</button>
 
           <Modal
             isOpen={this.state.modalIsOpen}
@@ -225,7 +228,7 @@ export class Polling extends React.Component<PollingProps, PollingState> {
                     className="form-control"
                   />
                   {this.state.fieldArray.map((field, number) => {
-                    console.log("`field${number + 1}`", `field${number + 1}`);
+                    // console.log("`field${number + 1}`", `field${number + 1}`);
                     return (
                       <div key={number}>
                         <div className="options">

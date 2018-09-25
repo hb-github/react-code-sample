@@ -81,11 +81,24 @@ h2 {
 .removeBtn {
   margin: 25px 0px 0px 80px;
 }
-.list_items {
-  width: 1000px;
+.list_items_active {
+  width: 835px;
   float: left;
+  color: green
+}
+.list_items_inactive {
+  width: 835px;
+  float: left;
+  color: grey;
 }
 .options {  
   float: left;
 }
-
+.editBtn{
+  float: left;
+  margin: 0px 20px 0px 20px;
+}
+.createpollBtn {  
+  float: right;
+  margin: 20px 30px 0px 0px;
+}

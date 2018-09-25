@@ -3,6 +3,7 @@ import { Polling } from "./polling";
 import { connect } from "react-redux";
 import { State } from "../../reducers";
 import { listPoll } from "../../actions";
+  
 
 const mapDispatchToProps = dispatch => ({
   listAction: (data: any) => dispatch(listPoll(data))
