@@ -71,11 +71,17 @@ input:checked + .slider:before {
   -ms-transform: translateX(30px);
   transform: translateX(30px);
 }
-
-
 .slider.round {
   border-radius: 34px;
 }
 .slider.round:before {
   border-radius: 50%;
 }
+.modal_footer{
+  float: left;
+  margin: 40px 0px 0px 40px;
+}
+.modelCloase {
+  margin: 0px 20px 0px 20px;
+}
+

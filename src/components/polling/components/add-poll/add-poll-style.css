@@ -21,3 +21,14 @@ margin: 4px 2px;
 cursor: pointer;
 }
 .button5 {border-radius: 50%;}
+.createPollBtn {
+  float: right;
+  margin: 20px 30px 0px 0px;
+}
+.footer{
+  float: left;
+  
+}
+.subBtn {
+  margin: 0px 30px 0px 30px; 
+}

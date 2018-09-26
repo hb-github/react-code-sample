@@ -3,7 +3,7 @@ import "./container-style.css";
 import * as toastr from "toastr";
 import { adminLogin } from "../../../../api";
 import randomstring from "randomstring";
-
+// import validate from './validate';
 import { withRouter } from "react-router-dom";
 export interface ContainerProps {
   history: any;
@@ -13,6 +13,7 @@ export interface ContainerProps {
 export interface ContainerState {
   username: string;
   password: string;
+  isSubmit: Boolean;
 }
 
 class Container extends React.Component<ContainerProps, ContainerState> {
@@ -20,7 +21,8 @@ class Container extends React.Component<ContainerProps, ContainerState> {
     super(props);
     this.state = {
       username: "", //hb@hiddenbrains.com
-      password: "" //dev@123
+      password: "", //dev@123
+      isSubmit: false
     };
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -39,15 +41,39 @@ class Container extends React.Component<ContainerProps, ContainerState> {
 
   handleUsernameChange(event: any) {
     this.setState({ username: event.target.value });
+    this.displayValidationErrorsUser("username");
   }
   handlePasswordChange(event: any) {
     this.setState({ password: event.target.value });
+    this.displayValidationErrorsPass("password");
+  }
+  displayValidationErrorsUser(value){
+    if(this.state.isSubmit === true && this.state.username == ''){
+      return (
+        <span className="error">{value} is required</span>
+      );
+    }
+  }
+  displayValidationErrorsPass(value){
+    if(this.state.isSubmit === true && this.state.password == ''){
+      return (
+        <span className="error">{value} is required</span>
+      );
+    }
   }
   handleSubmit(event) {
     const { authAction } = this.props;
     const token = randomstring.generate();
-    console.log("this.state", this.state);
+    // console.log("this.state", this.state);
     event.preventDefault();
+    this.setState({isSubmit: true})
+    if( this.state.username == '' ){
+      this.displayValidationErrorsUser("username");
+    }
+    if( this.state.password == '' ){
+      this.displayValidationErrorsPass("password");
+    }
+    if( this.state.username != '' && this.state.password != '' ){
     adminLogin(this.state)
       .then((login: any) => {
         if (login["code"] == 200) {
@@ -62,6 +88,7 @@ class Container extends React.Component<ContainerProps, ContainerState> {
       .catch(error => {
         console.log("error", error);
       });
+  }
   }
   render() {
       this.getAuth();
@@ -85,27 +112,31 @@ class Container extends React.Component<ContainerProps, ContainerState> {
                   <label className="text-white">Username:</label>
                   <br />
                   <input
-                    type="text"
+                    type="email"
                     placeholder={"Enter username"}
                     name="username"
                     id="username"
                     className="form-control"
                     value={this.state.username}
+                    tabIndex={1}
                     onChange={this.handleUsernameChange}
                   />
+                  {this.displayValidationErrorsUser("username")}
                 </div>
                 <div className="form-group">
                   <label className="text-white">Password:</label>
                   <br />
                   <input
-                    type="text"
+                    type="password"
                     name="password"
                     id="password"
                     className="form-control"
                     placeholder={"Enter password"}
                     value={this.state.password}
+                    tabIndex={2}
                     onChange={this.handlePasswordChange}
                   />
+                {this.displayValidationErrorsPass("password")}
                 </div>
                 <div className="form-group">
                   <input
@@ -113,7 +144,8 @@ class Container extends React.Component<ContainerProps, ContainerState> {
                     name="submit"
                     className="btn btn-color btn-md"
                     value="submit"
-                  />
+                    tabIndex={3}
+                  />                
                 </div>
               </form>
             </div>

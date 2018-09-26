@@ -52,6 +52,7 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
       modalIsOpen: true,
 
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -61,7 +62,7 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
 
   componentDidMount() {
     this.initUpdate();
-    console.log("selectedPoll", JSON.stringify(this.props.selectedPoll));
+    // console.log("selectedPoll", JSON.stringify(this.props.selectedPoll));
   }
   private initUpdate = () => {
     const { selectedPoll } = this.props;
@@ -110,20 +111,21 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
       });
   };
 
-  // Create Api
+  // Update Api
 
-  createCall = data => {
+  updateCall = data => {
+
     const { pollId } = this.state;
-    data['pollId'] = pollId;
+    data['pollId'] = pollId;    
     pollUpdate(data)
       .then(success => {
         // console.log(success);
         this.polls();
-        this.closeModal();
+        this.closeModal();``
       })
       .catch(error => {
         console.log(error);
-      });
+      });      
   };
 
   closeModal() {
@@ -153,7 +155,8 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
     }
   }
 
-  handleSubmit(event) {
+  handleSubmit(event) { 
+    console.log(this.state);
     event.preventDefault();
     const { title, time_limit, fieldArray, dynamicFields } = this.state;
     let optionValue = [];
@@ -166,8 +169,8 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
       title: title,
       options: optionValue,
       limit: time_limit
-    };
-    this.createCall(data);
+    };    
+    this.updateCall(data);
     event.preventDefault();
   }
   private removeField = (data: any) => {
@@ -293,18 +296,22 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
               <br />
             </div>
             <div className="footer">
-              <input
-                className="btn btn-danger"
-                type="button"
-                onClick={this.closeModal}
-                value="Cancle"
-              />
-              <input
-                className="btn btn-success submitBtn"
-                type="submit"
-                value="Submit"
-              />
-            </div>
+                <div className="footer cancelBtn">
+                  <input
+                    className="btn btn-success"
+                    type="submit"
+                    value="Submit"
+                  />
+                </div>
+                <div className="footer">
+                  <input
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={this.closeModal}
+                    value="Cancel"
+                  />
+                </div>
+              </div>
           </form>
         </div>
       </Modal>

@@ -69,11 +69,8 @@ export class Polling extends React.Component<PollingProps, PollingState> {
     console.log("this........", this.props.poll)
   }
   openModal() {
+    
     this.setState({ isAdded: true });
-  }
-
-  componentDidMount() {
-    // this.polls();
   }
   afterOpenModal() {
     // references are now sync'd and can be accessed.
@@ -214,7 +211,7 @@ export class Polling extends React.Component<PollingProps, PollingState> {
       <div>
         <Navbar />
         <div className="container">
-          <button className="btn btn-primary createpollBtn" onClick={this.openModal}>Create Poll</button>
+        { this.state.isAdded ? "" : <button className="btn btn-primary createpollBtn" onClick={this.openModal}>Create Poll</button> }          
           {this.state.isAdded ? <div>
             <AddPollContainer />
             <ListPoll />
@@ -222,10 +219,7 @@ export class Polling extends React.Component<PollingProps, PollingState> {
             <div>
               <ListPoll />
             </div>
-          }
-
-       
-
+          }  
         </div>
       </div>
     );

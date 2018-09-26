@@ -82,4 +82,8 @@
 }
  .btn-color{
   color: #0074d9;
+  z-index: 1000px;
 } 
+.error {
+  color: #31f500; 
+}

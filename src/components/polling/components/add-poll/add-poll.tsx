@@ -44,21 +44,19 @@ export class AddPoll extends React.Component<PollingProps, PollingState> {
       value: "",
       fieldCount: 2,
       fieldArray: ["field1", "field2"],
-      time_limit: '',
-      modalIsOpen: true,
-
+      time_limit: "",
+      modalIsOpen: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-
   }
 
   getPolls = () => {
-    console.log("this........", this.props.poll)
-  }
+    console.log("this........", this.props.poll);
+  };
   openModal() {
     this.setState({ modalIsOpen: true });
   }
@@ -171,7 +169,7 @@ export class AddPoll extends React.Component<PollingProps, PollingState> {
     const { fieldCount, fieldArray, dynamicFields } = this.state;
     const cpyFieldArray = fieldArray;
     let cpyFieldCount: any = fieldCount;
-    let cpyDynamicFields = { ...dynamicFields }
+    let cpyDynamicFields = { ...dynamicFields };
     console.log("cpyFieldArray", cpyFieldArray);
     console.log("cpyFieldCount", cpyFieldCount);
     cpyFieldCount++;
@@ -181,10 +179,10 @@ export class AddPoll extends React.Component<PollingProps, PollingState> {
       while (idUpdate) {
         sudoCount--;
         if (cpyFieldArray.indexOf(`field${sudoCount}`) < 0) {
-          cpyDynamicFields[`field${sudoCount}`] = '';
+          cpyDynamicFields[`field${sudoCount}`] = "";
           cpyFieldArray.push(`field${sudoCount}`);
           idUpdate = false;
-          this.setState({ dynamicFields: cpyDynamicFields })
+          this.setState({ dynamicFields: cpyDynamicFields });
         }
       }
       cpyFieldArray.sort();
@@ -199,101 +197,106 @@ export class AddPoll extends React.Component<PollingProps, PollingState> {
 
   render() {
     return (
-      <Modal
-        isOpen={this.state.modalIsOpen}
-        onAfterOpen={this.afterOpenModal}
-        onRequestClose={this.closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <div className="main_div">
-          <div className="header">
-            <div>
-              <h2 ref={subtitle => subtitle}>Create Poll</h2>
+      <div>
+        <div>
+          <button className="btn btn-primary createPollBtn" onClick={this.openModal} >Create Poll</button>
+        </div>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div className="main_div">
+            <div className="header">
+              <div>
+                <h2 ref={subtitle => subtitle}>Create Poll</h2>
+              </div>
+              <div className="addfield">
+                <button className="btn btn-primary" onClick={this.addField}>
+                  Add field
+                </button>
+              </div>
             </div>
-            <div className="addfield">
-              <button className="btn btn-primary" onClick={this.addField}>
-                Add field
-                  </button>
-            </div>
-          </div>
-          <form onSubmit={this.handleSubmit}>
-            <div className="middle">
-              <label>Title:</label>
-              <input
-                type="text"
-                name="title"
-                value={this.state.title}
-                onChange={this.handleChange}
-                className="form-control"
-              />
-              {this.state.fieldArray.map((field, number) => {
-                return (
-                  <div key={number}>
-                    <div className="options">
-                      <label>
-                        Option
-                            {number + 1}:
-                            <input
-                          placeholder={`Option ${number + 1}`}
-                          type="text"
-                          width="300px"
-                          name={field}
-                          value={
-                            this.state.dynamicFields[field]
-                          }
-                          onChange={this.handleChange}
-                          className="form-control"
-                        />
-                      </label>
-                    </div>
-                    <div>
-                      {this.state.fieldArray.length > 2 ? (
-                        <input
-                          type="button"
-                          onClick={() =>
-                            this.removeField(field)
-                          }
-                          value="Remove"
-                          className="btn btn-danger removeBtn"
-                        />
-                      ) : (
+            <form onSubmit={this.handleSubmit}>
+              <div className="middle">
+                <label>Title:</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={this.state.title}
+                  onChange={this.handleChange}
+                  className="form-control"
+                />
+                {this.state.fieldArray.map((field, number) => {
+                  return (
+                    <div key={number}>
+                      <div className="options">
+                        <label>
+                          Option
+                          {number + 1}:
+                          <input
+                            placeholder={`Option ${number + 1}`}
+                            type="text"
+                            width="300px"
+                            name={field}
+                            value={this.state.dynamicFields[field]}
+                            onChange={this.handleChange}
+                            className="form-control"
+                          />
+                        </label>
+                      </div>
+                      <div>
+                        {this.state.fieldArray.length > 2 ? (
+                          <input
+                            type="button"
+                            onClick={() => this.removeField(field)}
+                            value="Remove"
+                            className="btn btn-danger removeBtn"
+                          />
+                        ) : (
                           <button className="btn btn-danger removeBtn1 disabled">
                             Remove
-                            </button>
+                          </button>
                         )}{" "}
-                    </div>{" "}
-                    <br />
-                  </div>
-                );
-              })}
-              <label> Time limit: (example : 20 minute)</label>
-              <input
-                type="text"
-                name="limit"
-                placeholder={'In a minute'}
-                value={this.state.time_limit}
-                onChange={this.handleChange}
-                className="form-control"
-              />
-              <br />
-            </div>
-            <div className="footer">
-              <input
-                className="btn btn-danger"
-                type="button"
-                onClick={this.closeModal}
-                value="Cancle"
-              />
-              <input
-                className="btn btn-success submitBtn"
-                type="submit"
-                value="Submit"
-              />
-            </div>
-          </form>
-        </div>
-      </Modal>
+                      </div>{" "}
+                      <br />
+                    </div>
+                  );
+                })}
+                <label> Time limit: (example : 20 minute)</label>
+                <input
+                  type="text"
+                  name="limit"
+                  placeholder={"In a minute"}
+                  value={this.state.time_limit}
+                  onChange={this.handleChange}
+                  className="form-control"
+                />
+                <br />
+              </div>
+              <div className="footer">
+                <div className="footer cancelBtn">
+                  <input
+                    className="btn btn-success"
+                    type="submit"
+                    value="Submit"
+                  />
+                </div>
+                <div className="footer">
+                  <input
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={this.closeModal}
+                    value="Cancel"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </Modal>
+      </div>
     );
   }
 }

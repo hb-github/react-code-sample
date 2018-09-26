@@ -31,6 +31,7 @@ export const pollCreate = (data: any): Promise<{}> => {
 // Update
 
 export const pollUpdate = (data: any): Promise<{}> => {
+  console.log("data",data);
   const authURL = `${baseURL}polling/update`;
   return fetch(authURL, {
     method: "POST",
