@@ -1,7 +1,5 @@
-const baseURL = "http://localhost:3002/api/v1/";
-
+const baseURL = "http://192.168.39.35:3004/api/v1/";
 // Listing
-
 export const pollList = (data: any): Promise<{}> => {
   const authURL = `${baseURL}polling/list`;
   return fetch(authURL, {
@@ -31,7 +29,7 @@ export const pollCreate = (data: any): Promise<{}> => {
 // Update
 
 export const pollUpdate = (data: any): Promise<{}> => {
-  console.log("data",data);
+  console.log("data", data);
   const authURL = `${baseURL}polling/update`;
   return fetch(authURL, {
     method: "POST",
@@ -53,7 +51,7 @@ export const pollDelete = (data: any): Promise<{}> => {
       Accept: "application/json",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(data)    
+    body: JSON.stringify(data)
   }).then(response => response.json());
 };
 
@@ -67,7 +65,7 @@ export const pollToggleStatus = (data: any): Promise<{}> => {
       Accept: "application/json",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(data)    
+    body: JSON.stringify(data)
   }).then(response => response.json());
 };
 

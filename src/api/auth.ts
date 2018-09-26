@@ -1,6 +1,6 @@
 //import { MemberEntity } from '../../model';
 
-const baseURL = 'http://localhost:3002/api/v1/';
+const baseURL = 'http://192.168.39.35:3004/api/v1/';
 
 export const adminLogin = (data: any): Promise<{}> => {
     const authURL = `${baseURL}admin/login`;
