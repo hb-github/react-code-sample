@@ -88,7 +88,7 @@ export class List extends React.Component<PollingProps, State> {
   closeModal = () => {
     this.setState({ modalIsOpen: false });
   };
-  deleteItem = id => {   
+  deleteItem = id => {
     pollDelete({ pollId: id })
       .then(success => {
         this.polls();
@@ -130,7 +130,7 @@ export class List extends React.Component<PollingProps, State> {
           <div className="top-margin">
             <div className="row">
               <div className="col-sm-12 list_heading">
-                <div className="txt1">Polling List</div>
+                {/* <div className="txt1">Polling List</div> */}
                 <div className="col-sm-12">
                   <span className="txt2">
                     {/* <button type="button" className="btn btn-primary">
@@ -147,10 +147,16 @@ export class List extends React.Component<PollingProps, State> {
                 return (
                   <li key={field._id} className="list-group-item col-sm-12">
                     {field.status == "Active" ? (
-                      <div className="list_items_active">{field.title}</div>
+                      <div>
+                        <div className="list_items_active">{field.title}</div>
+                        <div className="list_items_active">{`http://192.169.39.35:8083/${field._id}`}</div>
+                      </div>
                     ) : (
-                      <div className="list_items_inactive">{field.title}</div>
-                    )}
+                        <div>
+                          <div className="list_items_inactive">{field.title}</div>
+                          <div className="list_items_active">{`http://192.169.39.35:8083/${field._id}`}</div>
+                        </div>
+                      )}
                     <div className="row">
                       <label className="switch">
                         <input
@@ -203,10 +209,16 @@ export class List extends React.Component<PollingProps, State> {
               return (
                 <li key={field._id} className="list-group-item col-sm-12">
                   {field.status == "Active" ? (
-                    <div className="list_items_active">{field.title}</div>
+                    <div>
+                      <div className="list_items_active">{field.title}</div>
+                      <div className="list_items_active">{`http://192.169.39.35:8083/${field._id}`}</div>
+                    </div>
                   ) : (
-                    <div className="list_items_inactive">{field.title}</div>
-                  )}
+                      <div>
+                        <div className="list_items_inactive">{field.title}</div>
+                        <div className="list_items_active">{`http://192.169.39.35:8083/${field._id}`}</div>
+                      </div>
+                    )}
                   <div className="row">
                     <label className="switch">
                       <input
@@ -236,43 +248,43 @@ export class List extends React.Component<PollingProps, State> {
               );
             })}
           </ul>
-          { this.props.poll.length > 0 ? 
-          ( <div>
-            <button
-              className="btn btn-secondry"
-              onClick={() => this.paginetion("increase")}
-            >
-              Next
+          {this.props.poll.length > 0 ?
+            (<div>
+              <button
+                className="btn btn-secondry"
+                onClick={() => this.paginetion("increase")}
+              >
+                Next
             </button>
-            <button
-              className="btn btn-secondry"
-              onClick={() => this.paginetion("decrease")}
-            >
-              Pre
-            </button> 
-            <Modal
-              isOpen={this.state.modalIsOpen}
-              onRequestClose={this.closeModal}
-              style={customStyles}
-              contentLabel="Example Modal"
-            >
-              Do you want to delete {this.state.name}
-              <div className="modal_footer">
-                <button
-                  className="btn btn-warning"
-                  onClick={() => this.deleteItem(this.state.id)}
-                >
-                  Delete
+              <button
+                className="btn btn-secondry"
+                onClick={() => this.paginetion("decrease")}
+              >
+                Pre
+            </button>
+              <Modal
+                isOpen={this.state.modalIsOpen}
+                onRequestClose={this.closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+              >
+                Do you want to delete {this.state.name}
+                <div className="modal_footer">
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => this.deleteItem(this.state.id)}
+                  >
+                    Delete
                 </button>
-                <button
-                  className="btn btn-danger modelCloase"
-                  onClick={() => this.closeModal()}
-                >
-                  Cancel
+                  <button
+                    className="btn btn-danger modelCloase"
+                    onClick={() => this.closeModal()}
+                  >
+                    Cancel
                 </button>
-              </div>
-            </Modal>
-          </div> ) : "" }
+                </div>
+              </Modal>
+            </div>) : ""}
         </div>
       );
     }

@@ -1,7 +1,7 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+var webpack = require('webpack');
 
 var basePath = __dirname;
 
@@ -79,7 +79,7 @@ module.exports = {
   // For development https://webpack.js.org/configuration/devtool/#for-development
   devtool: 'inline-source-map',
   devServer: {
-    port: 8082,
+    port: 8084,
     noInfo: true,
     historyApiFallback: true
   },
