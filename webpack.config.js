@@ -73,7 +73,7 @@ module.exports = {
   // For development https://webpack.js.org/configuration/devtool/#for-development
   devtool: false,
   devServer: {
-    port: 8084,
+    port: 8080,
     noInfo: true,
     historyApiFallback: true
   },
