@@ -1,12 +1,12 @@
 {
-  "name": "reactboilerplate",
-  "version": "1.0.0",
-  "description": "Sample working with React,TypeScript and Webpack",
+  "name": "react-code-sample",
+  "version": "0.0.1",
+  "description": "This repo shows the code sample for reactjs based project.",
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build-prod": "webpack --config webpack.prod.js"
   },
-  "author": "Lemoncode",
+  "author": "hiddenbrains",
   "license": "MIT",
   "dependencies": {
     "apisauce": "^0.16.0",

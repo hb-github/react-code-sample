@@ -52,14 +52,14 @@ React JS with Typescript Folder Structure Conventions
     ├── webpack.config.js              # webpack common config file
     ├── webpack.prod.js                # webpack environment config file
     └── yarn.lock                      # lockfile for dependencey manager    
-   
 
-## Install
 
-```shell
-(install yarn if not install globally)
-npm i yarn -g
+## To get started:  
+1. Install [NodeJS](http://www.nodejs.org)  
+2. Download this repo
+5. Open the command line of your choice and cd to the root directory of this repo on your machine  
+6. `npm install` - Installs packages
+7. `npm start` - Builds the project and launch a lite web server (webpack-dev-server).
+8. Navigate to [http://localhost:8080/](http://localhost:8080/) if your browser doesn't open automatically.
 
-step: 1 yarn install 
-step: 2 yarn start 
-```
+
