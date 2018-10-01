@@ -18,10 +18,10 @@ React JS with Typescript Folder Structure Conventions
               └── index.ts             # import all api realted file in index for common export
 
          ├── common
-                ├── constants                        #constant folder
+               └── constants                        #constant folder
                         └── actionTypes.ts           #action type definition
          ├── components
-                ├── login                            #main component folder
+                └── login                            #main component folder
                       └── components                 #sub component for main one     
                                ├── login.tsx         #sub component tsx file   
                                └── login-styles.css  #sub component styles file   
@@ -41,7 +41,7 @@ React JS with Typescript Folder Structure Conventions
          ├── index.html                              #main html    
          ├── index.tsx                               #main tsx
          ├── route.tsx                               #router file
-         ├── store.ts                                #store with reduxThunk middleware
+         └── store.ts                                #store with reduxThunk middleware
 
     ├── .babelrc                       # Babel Config file
     ├── .env                           # environment variable file
