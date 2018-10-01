@@ -57,6 +57,9 @@ React JS with Typescript Folder Structure Conventions
 ## Install
 
 ```shell
+(install yarn if not install globally)
+npm i yarn -g
+
 step: 1 yarn install 
-step: 1 npm start 
+step: 2 npm start 
 ```
