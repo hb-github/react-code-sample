@@ -1,9 +1,17 @@
 import * as React from 'react';
+
+//Styles import
 import './login-style.css';
+
+//Child Component Import
 import { Navbar, Container } from './components';
+
+//Component Properties
 export interface LoginProps {
     onSubmit: (data: any) => any
 }
+
+//Component States
 export interface LoginState {
     email: string,
 }
@@ -22,7 +30,6 @@ export class Login extends React.Component<LoginProps, LoginState> {
         this.setState({ email: event.target.value });
     }
     handleSubmit(event) {
-        window.localStorage.setItem("email", this.state.email);
         this.props.onSubmit(this.state.email);
     }
     render() {

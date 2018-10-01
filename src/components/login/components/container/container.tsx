@@ -1,15 +1,22 @@
 import * as React from "react";
+
+//Styles import
 import "./container-style.css";
 import * as toastr from "toastr";
+
+//api import 
 import { adminLogin } from "../../../../api";
 import randomstring from "randomstring";
-// import validate from './validate';
 import { withRouter } from "react-router-dom";
+
+//Component Properties
 export interface ContainerProps {
   history: any;
   auth: any;
   authAction: (data: any) => any;
 }
+
+//Component States
 export interface ContainerState {
   username: string;
   password: string;
@@ -19,79 +26,67 @@ export interface ContainerState {
 class Container extends React.Component<ContainerProps, ContainerState> {
   constructor(props: ContainerProps) {
     super(props);
-    this.state = {
+    this.state = {                                                            //Initializing state
       username: "", //hb@hiddenbrains.com
       password: "", //dev@123
       isSubmit: false
     };
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);        //Initializing field input state variable, because input in controlled component
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    //     toastr.success('Member saved.');
   }
 
-  getAuth = () => {
-    const { auth } = this.props;
-    console.log("auth", auth);
-  };
-  componentDidMount() {
-   // if (window.localStorage.getItem("token"))
-  //   this.props.history.push("/polling");
-  }
-
-  handleUsernameChange(event: any) {
+  handleUsernameChange(event: any) {                        //handle username changes
     this.setState({ username: event.target.value });
     this.displayValidationErrorsUser("username");
   }
-  handlePasswordChange(event: any) {
+  handlePasswordChange(event: any) {                       //handle password changes
     this.setState({ password: event.target.value });
     this.displayValidationErrorsPass("password");
   }
-  displayValidationErrorsUser(value){
-    if(this.state.isSubmit === true && this.state.username == ''){
+  displayValidationErrorsUser(value) {                     //handle error
+    if (this.state.isSubmit === true && this.state.username == '') {
       return (
         <span className="error">{value} is required</span>
       );
     }
   }
-  displayValidationErrorsPass(value){
-    if(this.state.isSubmit === true && this.state.password == ''){
+  displayValidationErrorsPass(value) {                      //handle error
+    if (this.state.isSubmit === true && this.state.password == '') {
       return (
         <span className="error">{value} is required</span>
       );
     }
   }
-  handleSubmit(event) {
+  handleSubmit(event) {                                     //handle submit
     const { authAction } = this.props;
     const token = randomstring.generate();
-    // console.log("this.state", this.state);
     event.preventDefault();
-    this.setState({isSubmit: true})
-    if( this.state.username == '' ){
+    this.setState({ isSubmit: true })
+    if (this.state.username == '') {
       this.displayValidationErrorsUser("username");
     }
-    if( this.state.password == '' ){
+    if (this.state.password == '') {
       this.displayValidationErrorsPass("password");
     }
-    if( this.state.username != '' && this.state.password != '' ){
-    adminLogin(this.state)
-      .then((login: any) => {
-        if (login["code"] == 200) {
-          toastr.success(login["msg"]);
-          authAction(login);
-          this.props.history.push("/polling");
-          window.localStorage.setItem("token", token);
-        } else {
-          toastr.error(login["msg"]);
-        }
-      })
-      .catch(error => {
-        console.log("error", error);
-      });
-  }
+    if (this.state.username != '' && this.state.password != '') {
+      adminLogin(this.state)
+        .then((login: any) => {
+          if (login["code"] == 200) {
+            toastr.success(login["msg"]);
+            authAction(login);
+            this.props.history.push("/polling");
+            window.localStorage.setItem("token", token);
+          } else {
+            toastr.error(login["msg"]);
+          }
+        })
+        .catch(error => {
+          console.log("error", error);
+        });
+    }
   }
   render() {
-      this.getAuth();
     return (
       <div className="container">
         <div
@@ -136,7 +131,7 @@ class Container extends React.Component<ContainerProps, ContainerState> {
                     tabIndex={2}
                     onChange={this.handlePasswordChange}
                   />
-                {this.displayValidationErrorsPass("password")}
+                  {this.displayValidationErrorsPass("password")}
                 </div>
                 <div className="form-group">
                   <input
@@ -145,7 +140,7 @@ class Container extends React.Component<ContainerProps, ContainerState> {
                     className="btn btn-color btn-md"
                     value="submit"
                     tabIndex={3}
-                  />                
+                  />
                 </div>
               </form>
             </div>
@@ -155,5 +150,5 @@ class Container extends React.Component<ContainerProps, ContainerState> {
     );
   }
 }
-
+//exported HOC with (withRouter) have history, match etc param as properties to our component
 export default withRouter(Container);

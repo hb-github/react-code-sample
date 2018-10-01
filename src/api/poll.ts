@@ -1,71 +1,34 @@
-const baseURL = "http://192.168.39.35:3004/api/v1/";
-// Listing
+import { methodHandler } from './methodHandler';
+
+// List poll 
 export const pollList = (data: any): Promise<{}> => {
-  const authURL = `${baseURL}polling/list`;
-  return fetch(authURL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  }).then(response => response.json());
+  const authURL = `${process.env.API_URL}polling/list`;
+  return fetch(authURL, methodHandler('POST', data))
+    .then(response => response.json());
 };
 
-// Create
-
+// Create poll
 export const pollCreate = (data: any): Promise<{}> => {
-  const authURL = `${baseURL}polling/Create`;
-  return fetch(authURL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  }).then(response => response.json());
+  const authURL = `${process.env.API_URL}polling/Create`;
+  return fetch(authURL, methodHandler('POST', data)).then(response => response.json());
 };
 
-// Update
-
+// Update poll
 export const pollUpdate = (data: any): Promise<{}> => {
   console.log("data", data);
-  const authURL = `${baseURL}polling/update`;
-  return fetch(authURL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  }).then(response => response.json());
+  const authURL = `${process.env.API_URL}polling/update`;
+  return fetch(authURL, methodHandler('POST', data)).then(response => response.json());
 };
 
-// Delete
-
+// Delete poll
 export const pollDelete = (data: any): Promise<{}> => {
-  const authURL = `${baseURL}polling/delete`;
-  return fetch(authURL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  }).then(response => response.json());
+  const authURL = `${process.env.API_URL}polling/delete`;
+  return fetch(authURL, methodHandler('POST', data)).then(response => response.json());
 };
 
-// Toggling Status 
-
+// Change poll status  
 export const pollToggleStatus = (data: any): Promise<{}> => {
-  const authURL = `${baseURL}polling/activeOrDeactive`;
-  return fetch(authURL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  }).then(response => response.json());
+  const authURL = `${process.env.API_URL}polling/activeOrDeactive`;
+  return fetch(authURL, methodHandler('POST', data)).then(response => response.json());
 };
 

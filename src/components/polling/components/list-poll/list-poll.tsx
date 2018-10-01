@@ -3,12 +3,11 @@ import "./list-poll-style.css";
 import UpdatePollContainer from "../update-poll";
 import {
   pollList,
-  pollCreate,
   pollDelete,
-  pollUpdate,
   pollToggleStatus
 } from "../../../../api/poll";
 import Modal from "react-modal";
+const staticUrl = "http://hbvoting.projectspreview.net:3003";
 const customStyles = {
   content: {
     top: "50%",
@@ -40,7 +39,7 @@ export interface State {
 export class List extends React.Component<PollingProps, State> {
   constructor(props: PollingProps) {
     super(props);
-    this.state = {
+    this.state = {                                //Initially state
       isUpdate: false,
       page: 1,
       total: 0,
@@ -50,11 +49,11 @@ export class List extends React.Component<PollingProps, State> {
       modalIsOpen: false
     };
   }
-  componentDidMount() {
+  componentDidMount() {                        //fetching data
     this.polls();
   }
 
-  paginetion(value) {
+  pagination(value) {                        //pagination function
     if (
       value == "increase" &&
       this.state.total / this.state.limit > this.state.page
@@ -66,7 +65,7 @@ export class List extends React.Component<PollingProps, State> {
     }
   }
 
-  private polls = () => {
+  private polls = () => {                                   //calling poll list api
     pollList({ page: this.state.page })
       .then(success => {
         this.setState({ limit: success["pollingList"].limit });
@@ -82,13 +81,10 @@ export class List extends React.Component<PollingProps, State> {
     this.setState({ modalIsOpen: true, id: data._id, name: data.title });
   };
 
-  closeModel = () => {
-    this.setState({ isUpdate: false });
-  };
   closeModal = () => {
     this.setState({ modalIsOpen: false });
   };
-  deleteItem = id => {
+  deleteItem = id => {                                       //deleting specific poll by id 
     pollDelete({ pollId: id })
       .then(success => {
         this.polls();
@@ -98,12 +94,11 @@ export class List extends React.Component<PollingProps, State> {
       });
     this.setState({ modalIsOpen: false });
   };
-  setPoll = data => {
+  setPoll = data => {                                           //passing data to state manager 
     this.props.selectedPollAction(data);
     this.setState({ isUpdate: true });
   };
-
-  setStatus = data => {
+  setStatus = data => {                                        //Activating and deactivating poll
     data.status == "Inactive"
       ? (data.status = "Active")
       : (data.status = "Inactive");
@@ -113,7 +108,8 @@ export class List extends React.Component<PollingProps, State> {
       activeTimeStamp: new Date()
     })
       .then(success => {
-        this.polls();
+        if (success)
+          this.polls();
       })
       .catch(error => {
         console.log(error);
@@ -122,39 +118,33 @@ export class List extends React.Component<PollingProps, State> {
 
   render() {
     const { poll } = this.props;
-
     if (this.state.isUpdate) {
       return (
         <div>
-          <UpdatePollContainer closeModel={this.closeModel} />
+          <UpdatePollContainer closeModel={this.closeModal} />
           <div className="top-margin">
             <div className="row">
               <div className="col-sm-12 list_heading">
-                {/* <div className="txt1">Polling List</div> */}
                 <div className="col-sm-12">
                   <span className="txt2">
-                    {/* <button type="button" className="btn btn-primary">
-              Create Poll
-            </button> */}
                   </span>
                 </div>
               </div>
             </div>
 
             <ul className="list-group">
-              {poll.map((field, number) => {
-                // console.log("field", field);
+              {poll.map((field) => {
                 return (
                   <li key={field._id} className="list-group-item col-sm-12">
                     {field.status == "Active" ? (
                       <div>
                         <div className="list_items_active">{field.title}</div>
-                        <div className="list_items_active">{`http://192.169.39.35:8083/${field._id}`}</div>
+                        <div className="list_items_active">{`${staticUrl}/${field._id}`}</div>
                       </div>
                     ) : (
                         <div>
                           <div className="list_items_inactive">{field.title}</div>
-                          <div className="list_items_active">{`http://192.169.39.35:8083/${field._id}`}</div>
+                          <div className="list_items_active">{`${staticUrl}/${field._id}`}</div>
                         </div>
                       )}
                     <div className="row">
@@ -197,26 +187,23 @@ export class List extends React.Component<PollingProps, State> {
               <div className="txt1">Polling List</div>
               <div className="col-sm-12">
                 <span className="txt2">
-                  {/* <button type="button" onClick={this.openModel} className="btn btn-primary">Create Poll</button> */}
                 </span>
               </div>
             </div>
           </div>
-
           <ul className="list-group">
             {poll.map((field, number) => {
-              // console.log("field", field);
               return (
                 <li key={field._id} className="list-group-item col-sm-12">
                   {field.status == "Active" ? (
                     <div>
                       <div className="list_items_active">{field.title}</div>
-                      <div className="list_items_active">{`http://192.169.39.35:8083/${field._id}`}</div>
+                      <div className="list_items_active">{`${staticUrl}/${field._id}`}</div>
                     </div>
                   ) : (
                       <div>
                         <div className="list_items_inactive">{field.title}</div>
-                        <div className="list_items_active">{`http://192.169.39.35:8083/${field._id}`}</div>
+                        <div className="list_items_active">{`${staticUrl}/${field._id}`}</div>
                       </div>
                     )}
                   <div className="row">
@@ -252,13 +239,13 @@ export class List extends React.Component<PollingProps, State> {
             (<div>
               <button
                 className="btn btn-secondry"
-                onClick={() => this.paginetion("increase")}
+                onClick={() => this.pagination("increase")}
               >
                 Next
             </button>
               <button
                 className="btn btn-secondry"
-                onClick={() => this.paginetion("decrease")}
+                onClick={() => this.pagination("decrease")}
               >
                 Pre
             </button>

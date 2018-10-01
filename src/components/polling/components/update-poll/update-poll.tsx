@@ -34,7 +34,7 @@ export interface PollingState {
 export class UpdatePoll extends React.Component<PollingProps, PollingState> {
   constructor(props: PollingProps) {
     super(props);
-    this.state = {
+    this.state = {                                    //Initially state
       title: "",
       pollId: '',
       dynamicFields: {
@@ -52,8 +52,7 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
       modalIsOpen: true,
 
     };
-
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);      //Binding function
     this.handleSubmit = this.handleSubmit.bind(this);
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -61,19 +60,19 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
   }
 
   componentDidMount() {
-    this.initUpdate();
-    // console.log("selectedPoll", JSON.stringify(this.props.selectedPoll));
+    this.initUpdate();                              // Initially dynamic content
   }
+
   private initUpdate = () => {
+    const _self = this;
     const { selectedPoll } = this.props;
-    const { fieldCount, fieldArray, dynamicFields, } = this.state;
+    const { fieldArray, dynamicFields, } = this.state;
     const cpyDynamicFields = dynamicFields;
     const cpyFieldArray = fieldArray;
     this.setState({ title: selectedPoll['title'] });
     this.setState({ pollId: selectedPoll['_id'] });
     this.setState({ time_limit: selectedPoll['limit'].toString() });
     selectedPoll['options'].map((x, idx) => {
-      console.log("idx", idx);
       if ((idx + 1) == 1) {
         cpyDynamicFields['field1'] = x['option'];
       } else if ((idx + 1) == 2) {
@@ -83,80 +82,78 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
         cpyDynamicFields[`field${idx + 1}`] = x['option'];
       }
     })
-    this.setState({
+    _self.setState({
       fieldArray: cpyFieldArray,
       dynamicFields: cpyDynamicFields
     })
   }
 
-  openModal() {
+  openModal() {                                                //Open model
     this.setState({ modalIsOpen: true });
   }
-
 
   afterOpenModal() {
     // references are now sync'd and can be accessed.
     //this.subtitle.style.color = '#f00';
   }
 
-  // List Api
-
-  private polls = () => {
+  private polls = () => {                            // List Api
     pollList({ page: 1 })
       .then(success => {
-        this.props.listAction(success["pollingList"].docs);
+        if (success)
+          this.props.listAction(success["pollingList"].docs);
       })
       .catch(error => {
         console.log(error);
       });
   };
 
-  // Update Api
-
-  updateCall = data => {
-
+  updateCall = data => {                               //update poll
+    const _self = this;
     const { pollId } = this.state;
-    data['pollId'] = pollId;    
+    data['pollId'] = pollId;
     pollUpdate(data)
       .then(success => {
-        // console.log(success);
-        this.polls();
-        this.closeModal();``
+        if (success) {
+          _self.polls();
+          _self.closeModal();
+        }
       })
       .catch(error => {
         console.log(error);
-      });      
+      });
   };
 
   closeModal() {
-    this.props.closeModel();
-    this.setState({ modalIsOpen: false });
+    const _self = this;
+    _self.props.closeModel();                             //hidding model from parent
+    _self.setState({ modalIsOpen: false });              // hidding model from current component
   }
 
   handleChange(event) {
-    const { dynamicFields } = this.state;
+    const _self = this;
+    const { dynamicFields } = _self.state;
     const cpydDynamicFields = dynamicFields;
-    console.log("cpydDynamicFields", cpydDynamicFields);
     const target = event.target;
     const name = target.name;
     if (name == "title") {
-      this.setState({
+      _self.setState({
         title: event.target.value
       });
     } else if (name == "limit") {
-      this.setState({
+      _self.setState({
         time_limit: event.target.value
       });
     } else {
       cpydDynamicFields[name] = event.target.value;
-      this.setState({
+      _self.setState({
         dynamicFields: cpydDynamicFields
       });
     }
   }
 
-  handleSubmit(event) { 
-    console.log(this.state);
+  handleSubmit(event) {
+    const _self = this;
     event.preventDefault();
     const { title, time_limit, fieldArray, dynamicFields } = this.state;
     let optionValue = [];
@@ -169,25 +166,26 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
       title: title,
       options: optionValue,
       limit: time_limit
-    };    
-    this.updateCall(data);
+    };
+    _self.updateCall(data);
     event.preventDefault();
   }
   private removeField = (data: any) => {
-    console.log("data", data);
+    const _self = this;
     const { fieldCount, fieldArray } = this.state;
     const cpyFieldArray = fieldArray;
     let cpyFieldCount: any = fieldCount;
     cpyFieldArray.splice(cpyFieldArray.indexOf(data), 1);
     delete cpyFieldArray[data];
     cpyFieldCount--;
-    this.setState({
+    _self.setState({
       fieldCount: cpyFieldCount,
       fieldArray: cpyFieldArray
     });
   };
   private addField = () => {
-    const { fieldCount, fieldArray, dynamicFields } = this.state;
+    const _self = this;
+    const { fieldCount, fieldArray, dynamicFields } = _self.state;
     const cpyFieldArray = fieldArray;
     let cpyFieldCount: any = fieldCount;
     let cpyDynamicFields = { ...dynamicFields }
@@ -201,14 +199,14 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
           cpyDynamicFields[`field${sudoCount}`] = '';
           cpyFieldArray.push(`field${sudoCount}`);
           idUpdate = false;
-          this.setState({ dynamicFields: cpyDynamicFields })
+          _self.setState({ dynamicFields: cpyDynamicFields })
         }
       }
       cpyFieldArray.sort();
     } else {
       cpyFieldArray.push(`field${cpyFieldCount}`);
     }
-    this.setState({
+    _self.setState({
       fieldCount: cpyFieldCount,
       fieldArray: cpyFieldArray
     });
@@ -231,7 +229,7 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
             <div className="addfield">
               <button className="btn btn-primary" onClick={this.addField}>
                 Add field
-                  </button>
+              </button>
             </div>
           </div>
           <form onSubmit={this.handleSubmit}>
@@ -296,22 +294,22 @@ export class UpdatePoll extends React.Component<PollingProps, PollingState> {
               <br />
             </div>
             <div className="footer">
-                <div className="footer cancelBtn">
-                  <input
-                    className="btn btn-success"
-                    type="submit"
-                    value="Submit"
-                  />
-                </div>
-                <div className="footer">
-                  <input
-                    className="btn btn-danger"
-                    type="button"
-                    onClick={this.closeModal}
-                    value="Cancel"
-                  />
-                </div>
+              <div className="footer cancelBtn">
+                <input
+                  className="btn btn-success"
+                  type="submit"
+                  value="Submit"
+                />
               </div>
+              <div className="footer">
+                <input
+                  className="btn btn-danger"
+                  type="button"
+                  onClick={this.closeModal}
+                  value="Cancel"
+                />
+              </div>
+            </div>
           </form>
         </div>
       </Modal>

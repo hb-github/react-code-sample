@@ -5,6 +5,7 @@ import { Login } from './components/login/login';
 import { PollingContainer } from './components/polling'
 import { store } from './store';
 
+//Route Definition
 export const AppRouter: React.StatelessComponent<{}> = () => {
   return (
     <Provider store={store}>

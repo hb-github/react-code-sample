@@ -1,3 +1,4 @@
+//Action type constant 
 export const actionTypes = {
     ADMIN_LOGIN: 'admin/LOGIN',
     POLL_LIST: "poll/LIST",

@@ -1,6 +1,7 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 var webpack = require('webpack');
 
 var basePath = __dirname;
@@ -10,19 +11,12 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx']
   },
+  node: {
+    fs: 'empty'
+  },
   entry: {
     app: './index.tsx',
     appStyles: './css/site.css',
-    vendor: [
-      'react',
-      'react-dom',
-      'react-router',
-      'toastr',
-      'lc-form-validation',
-      'redux',
-      'react-redux',
-      'redux-thunk',
-    ],
     vendorStyles: [
       '../node_modules/bootstrap/dist/css/bootstrap.css',
       '../node_modules/toastr/build/toastr.css',
@@ -77,7 +71,7 @@ module.exports = {
     ],
   },
   // For development https://webpack.js.org/configuration/devtool/#for-development
-  devtool: 'inline-source-map',
+  devtool: false,
   devServer: {
     port: 8084,
     noInfo: true,
@@ -96,11 +90,11 @@ module.exports = {
     }
   },
   plugins: [
-    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
-    new CleanWebpackPlugin(['dist']),
+    new Dotenv(),                                  //.env webpack config
+    new CleanWebpackPlugin(['dist']),              //.cleaning dist folder before generating build
     new HtmlWebpackPlugin({
-      filename: 'index.html', //Name of file in ./dist/
-      template: 'index.html' //Name of template in ./src
+      filename: 'index.html',                      //Name of file in ./dist/
+      template: 'index.html'                       //Name of template in ./src
     })
   ],
 };
