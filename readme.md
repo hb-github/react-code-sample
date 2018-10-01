@@ -61,5 +61,5 @@ React JS with Typescript Folder Structure Conventions
 npm i yarn -g
 
 step: 1 yarn install 
-step: 2 npm start 
+step: 2 yarn start 
 ```
